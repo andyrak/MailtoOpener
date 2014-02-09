@@ -8,7 +8,8 @@ typedef NS_ENUM(NSInteger, MailApp) {
     Mail = 0,
     MailComposeView,
     Gmail,
-    Sparrow
+    Sparrow,
+    Cloudmagic
 };
 static MailApp PreferedMailApp;
 static MFMailComposeViewController *MailComposeViewController;
@@ -126,6 +127,11 @@ CHOptimizedMethod(6, self, void, SpringBoard, _openURLCore, NSURL *, url, displa
                 [[UIApplication sharedApplication]openURL:[NSURL URLWithString:newURL]];
                 break;
             }
+            case CloudMagic: {
+                NSString *newURL = [NSString stringWithString:@"cloudmagic:///"];
+                [[UIApplication sharedApplication]openURL:[NSURL URLWithString:newURL]];
+                break;
+            }
             default: {
                 CHSuper(6, SpringBoard, _openURLCore, url, display, display, animating, animating, sender, sender, additionalActivationFlags, flags, activationHandler, handler);
                 break;
@@ -165,6 +171,11 @@ CHOptimizedMethod(5, self, void, SpringBoard, _openURLCore, NSURL *, url, displa
                 [[UIApplication sharedApplication]openURL:[NSURL URLWithString:newURL]];
                 break;
             }
+            case CloudMagic: {
+                NSString *newURL = [NSString stringWithString:@"cloudmagic:///"];
+                [[UIApplication sharedApplication]openURL:[NSURL URLWithString:newURL]];
+                break;
+            }
             default: {
                 CHSuper(5, SpringBoard, _openURLCore, url, display, display, animating, animating, sender, sender, additionalActivationFlags, flags);
                 break;
@@ -176,12 +187,12 @@ CHOptimizedMethod(5, self, void, SpringBoard, _openURLCore, NSURL *, url, displa
 }
 static void loadPreferences(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo)
 {
-	NSDictionary *preferences = [NSDictionary dictionaryWithContentsOfFile:PreferencesPlist];
+    NSDictionary *preferences = [NSDictionary dictionaryWithContentsOfFile:PreferencesPlist];
     PreferedMailApp = [preferences[@"PreferedMailApp"]integerValue];
 }
 CHConstructor
 {
-	@autoreleasepool {
+    @autoreleasepool {
         CHLoadLateClass(SpringBoard);
         if (iOS7()) {
             CHHook(6, SpringBoard, _openURLCore, display, animating, sender, additionalActivationFlags, activationHandler);
