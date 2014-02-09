@@ -9,7 +9,7 @@ typedef NS_ENUM(NSInteger, MailApp) {
     MailComposeView,
     Gmail,
     Sparrow,
-    Cloudmagic
+    CloudMagic
 };
 static MailApp PreferedMailApp;
 static MFMailComposeViewController *MailComposeViewController;
